@@ -6,7 +6,6 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 app.use(cors()); // Разрешаем браузерам отправлять запросы с других сайтов
 app.use(express.json());
-// ... остальной код остается без изменений ...
 // server.js
 const express = require('express');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
