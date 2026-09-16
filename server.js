@@ -1,28 +1,21 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // Подключаем CORS
+const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
-app.use(cors()); // Разрешаем браузерам отправлять запросы с других сайтов
+app.use(cors());
 app.use(express.json());
-// server.js
-const express = require('express');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const app = express();
-app.use(express.json());
-app.use(express.static('public')); // Папка для HTML файла
-
-// ВНИМАНИЕ: Вставьте ваш новый API-ключ в кавычки ниже!
-const genAI = new GoogleGenerativeAI('AQ.Ab8RN6LmuykjC5t5vS_QUnxIavsf9AGvxIs_jZGrtEGQ2pK6FQ');
+// Ключ безопасно подтягивается из скрытых настроек Render
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post('/api/humanize', async (req, res) => {
     try {
         const model = genAI.getGenerativeModel({ 
             model: "gemini-2.5-flash",
             generationConfig: {
-                temperature: 0.5, // Снизили температуру для научного стиля
+                temperature: 0.5, 
                 topP: 0.95,
             }
         });
@@ -36,6 +29,7 @@ app.post('/api/humanize', async (req, res) => {
         3. Замени простые слова на профессиональную терминологию.
         4. Полностью исключи эмоциональную окраску, просторечия, обращения к читателю и воду.
         5. Избегай типичных ИИ-шаблонов (таких как "в заключение", "важно отметить", "в современном мире").
+        6. Строго сохраняй в неизменном виде все физические формулы, единицы измерения и специализированные термины.
         
         Текст для обработки: ${req.body.text}`;
 
